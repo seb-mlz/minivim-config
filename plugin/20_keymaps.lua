@@ -10,14 +10,14 @@
 
 -- An example helper to create a Normal mode mapping
 local nmap = function(lhs, rhs, desc)
-  -- See `:h vim.keymap.set()`
-  vim.keymap.set('n', lhs, rhs, { desc = desc })
+	-- See `:h vim.keymap.set()`
+	vim.keymap.set("n", lhs, rhs, { desc = desc })
 end
 
 -- Paste linewise before/after current line
 -- Usage: `yiw` to yank a word and `]p` to put it on the next line.
-nmap('[p', '<Cmd>exe "put! " . v:register<CR>', 'Paste Above')
-nmap(']p', '<Cmd>exe "put "  . v:register<CR>', 'Paste Below')
+nmap("[p", '<Cmd>exe "put! " . v:register<CR>', "Paste Above")
+nmap("]p", '<Cmd>exe "put "  . v:register<CR>', "Paste Below")
 
 -- Many general mappings are created by 'mini.basics'. See 'plugin/30_mini.lua'
 
@@ -171,6 +171,9 @@ nmap_leader('gl', '<Cmd>' .. git_log_cmd .. '<CR>',         'Log')
 nmap_leader('gL', '<Cmd>' .. git_log_buf_cmd .. '<CR>',     'Log buffer')
 nmap_leader('go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', 'Toggle overlay')
 nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>',  'Show at cursor')
+
+-- LazyGit
+nmap_leader('gg', '<Cmd>LazyGit<CR>', 'LazyGit')
 
 xmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>', 'Show at selection')
 

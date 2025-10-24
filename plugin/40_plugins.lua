@@ -101,6 +101,7 @@ now_if_args(function()
 		"vue_ls",
 		"vtsls",
 		"phpactor",
+		"tailwindcss",
 	})
 	-- Use `:h vim.lsp.enable()` to automatically enable language server based on
 	-- the rules provided by 'nvim-lspconfig'.
@@ -180,6 +181,14 @@ end)
 -- See `:h MiniSnippets.gen_loader.from_lang()`.
 later(function()
 	add("rafamadriz/friendly-snippets")
+end)
+
+-- Git UI =================================================================
+later(function()
+	-- Add lazygit
+	add("kdheepak/lazygit.nvim")
+	-- Add its dependency
+	add("nvim-lua/plenary.nvim")
 end)
 
 -- Honorable mentions =========================================================
