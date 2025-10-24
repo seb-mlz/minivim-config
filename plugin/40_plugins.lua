@@ -196,15 +196,30 @@ later(function()
 	require("mason").setup()
 end)
 
+later(function()
+	-- This is the correct community Lua plugin
+	add("zbirenbaum/copilot.lua")
+
+	-- The setup config remains the same
+	require("copilot").setup({
+		suggestion = {
+			auto_trigger = true,
+			keymap = {
+				dismiss = "<C-e>",
+			},
+		},
+		panel = {
+			enabled = false, -- Keep it minimal
+		},
+	})
+end)
+
 -- Beautiful, usable, well maintained color schemes outside of 'mini.nvim' and
 -- have full support of its highlight groups. Use if you don't like 'miniwinter'
 -- enabled in 'plugin/30_mini.lua' or other suggested 'mini.hues' based ones.
--- MiniDeps.now(function()
---   -- Install only those that you need
---   add('sainnhe/everforest')
---   add('Shatur/neovim-ayu')
---   add('ellisonleao/gruvbox.nvim')
---
---   -- Enable only one
---   vim.cmd('color everforest')
--- end)
+MiniDeps.now(function()
+	-- Install only those that you need
+	add("catppuccin/nvim")
+	-- Enable only one
+	vim.cmd("color catppuccin-frappe")
+end)
