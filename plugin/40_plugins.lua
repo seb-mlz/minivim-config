@@ -100,6 +100,7 @@ now_if_args(function()
 		"lua_ls",
 		"vue_ls",
 		"vtsls",
+		"phpactor",
 	})
 	-- Use `:h vim.lsp.enable()` to automatically enable language server based on
 	-- the rules provided by 'nvim-lspconfig'.
