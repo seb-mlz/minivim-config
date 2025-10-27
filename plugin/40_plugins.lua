@@ -102,6 +102,7 @@ now_if_args(function()
 		"vtsls",
 		"phpactor",
 		"tailwindcss",
+		"emmet_language_server",
 	})
 	-- Use `:h vim.lsp.enable()` to automatically enable language server based on
 	-- the rules provided by 'nvim-lspconfig'.
@@ -232,4 +233,11 @@ MiniDeps.now(function()
 	add("catppuccin/nvim")
 	-- Enable only one
 	vim.cmd("color catppuccin-frappe")
+end)
+
+-- Custom Code =========================================================
+-- Load any custom commands or modules
+later(function()
+	-- Load your i18n commands
+	require("commands.i18n")
 end)
