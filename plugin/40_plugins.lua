@@ -161,12 +161,14 @@ later(function()
 		formatters_by_ft = {
 			lua = { "stylua" },
 			vue = { "eslint_d" },
+			typescript = { "eslint_d" },
+			javascript = { "eslint_d" },
 			php = { "php-cs-fixer" },
 		},
 		format_on_save = {
 			-- I recommend these options. See :help conform.format for details.
 			lsp_format = "fallback",
-			timeout_ms = 500,
+			timeout_ms = 600,
 		},
 	})
 end)
