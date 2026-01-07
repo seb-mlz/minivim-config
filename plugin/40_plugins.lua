@@ -52,6 +52,7 @@ now_if_args(function()
 		"lua",
 		"vimdoc",
 		"markdown",
+		"php",
 		-- Add here more languages with which you want to use tree-sitter
 		-- To see available languages:
 		-- - Execute `:=require('nvim-treesitter').get_available()`
@@ -103,6 +104,8 @@ now_if_args(function()
 		"phpactor",
 		"tailwindcss",
 		"emmet_language_server",
+		"vimfony",
+		"pyright",
 	})
 	-- Use `:h vim.lsp.enable()` to automatically enable language server based on
 	-- the rules provided by 'nvim-lspconfig'.
