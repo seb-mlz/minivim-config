@@ -53,6 +53,7 @@ now_if_args(function()
 		"vimdoc",
 		"markdown",
 		"php",
+		"typst",
 		-- Add here more languages with which you want to use tree-sitter
 		-- To see available languages:
 		-- - Execute `:=require('nvim-treesitter').get_available()`
@@ -106,6 +107,7 @@ now_if_args(function()
 		"emmet_language_server",
 		"vimfony",
 		"pyright",
+		"tinymist",
 	})
 	-- Use `:h vim.lsp.enable()` to automatically enable language server based on
 	-- the rules provided by 'nvim-lspconfig'.
@@ -167,6 +169,7 @@ later(function()
 			typescript = { "eslint_d" },
 			javascript = { "eslint_d" },
 			php = { "php-cs-fixer" },
+			json = { "jq" },
 		},
 		format_on_save = {
 			-- I recommend these options. See :help conform.format for details.
@@ -195,6 +198,7 @@ later(function()
 	add("kdheepak/lazygit.nvim")
 	-- Add its dependency
 	add("nvim-lua/plenary.nvim")
+	add("lewis6991/gitsigns.nvim")
 end)
 
 -- Honorable mentions =========================================================

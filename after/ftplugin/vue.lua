@@ -16,9 +16,10 @@ table.insert(_G.Config.leader_group_clues, {
 })
 
 -- Your i18n keymaps
-nmap_leader("ia", ":I18nAdd<CR>", "i18n: Add")
-nmap_leader("iu", ":I18nUpdate<CR>", "i18n: Update")
-nmap_leader("il", ":I18nList<CR>", "i18n: List")
-nmap_leader("iv", ":I18nValidate<CR>", "i18n: Validate")
+nmap_leader("ia", ":I18nAdd<CR>", "i18n: [A]dd")
+nmap_leader("iu", ":I18nUpdate<CR>", "i18n: [U]pdate")
+nmap_leader("il", ":I18nList<CR>", "i18n: [L]ist")
+nmap_leader("iv", ":I18nValidate<CR>", "i18n: [V]alidate")
+nmap_leader("is", ":I18nGoto<CR>", "i18n: Go to [S]ource")
 
 -- You can add any other Vue-specific settings her

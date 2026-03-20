@@ -385,4 +385,94 @@ function M.sort_json_files()
 	end
 end
 
+-- Extract i18n key from current cursor position
+function M.extract_key_from_cursor()
+	local line = vim.api.nvim_get_current_line()
+	local col = vim.api.nvim_win_get_cursor(0)[2]
+
+	-- Try pattern matching (priority order)
+	local patterns = {
+		"%$t%(['\"]([%w%.]+)['\"]%)", -- $t('key.path')
+		"t%(['\"]([%w%.]+)['\"]%)", -- t('key.path')
+		'["\']([%w%.]+)["\']%s*:', -- "key": in JSON
+	}
+
+	for _, pattern in ipairs(patterns) do
+		local key = line:match(pattern)
+		if key then
+			return key
+		end
+	end
+
+	-- Fallback: word under cursor
+	return vim.fn.expand("<cword>")
+end
+
+-- Find translation key locations across all locale files (TWO-PHASE APPROACH)
+function M.goto_translation_key(key)
+	-- Phase 1: Extract key if not provided
+	if not key or key == "" then
+		key = M.extract_key_from_cursor()
+	end
+
+	if not key or key == "" then
+		show_notification("No i18n key found under cursor", "warn")
+		return
+	end
+
+	-- Phase 2: Validate key exists using backend script
+	local success, check_result = run_bun_script("check", key)
+	if not success then
+		show_notification("Key not found: " .. key, "error")
+		return
+	end
+
+	-- Phase 3: Get translations from backend
+	success, translations = run_bun_script("get", key)
+	if not success or #translations == 0 then
+		show_notification("Failed to retrieve translations for: " .. key, "error")
+		return
+	end
+
+	-- Phase 4: Build quickfix list by finding line numbers
+	local project_root = get_project_root()
+	local i18n_dir = project_root .. "/" .. M.config.i18n_dir
+	local leaf_key = key:match("([^%.]+)$") or key
+	local qf_list = {}
+
+	for _, line in ipairs(translations) do
+		local lang, translation = line:match("^(%w+):(.+)$")
+		if lang and translation then
+			local filepath = i18n_dir .. "/" .. lang .. ".json"
+
+			-- Use ripgrep to find line number
+			local rg_cmd = string.format('rg -n \'"%s"\' %s', leaf_key, vim.fn.shellescape(filepath))
+			local rg_result = vim.fn.systemlist(rg_cmd)
+
+			for _, rg_line in ipairs(rg_result) do
+				local lnum, text = rg_line:match("^(%d+):(.*)$")
+				if lnum then
+					table.insert(qf_list, {
+						filename = filepath,
+						lnum = tonumber(lnum),
+						col = 1,
+						text = string.format("[%s] %s: %s", lang, key, translation),
+						type = "I",
+					})
+					break -- Only take first match per file
+				end
+			end
+		end
+	end
+
+	-- Phase 5: Populate quickfix and open
+	if #qf_list == 0 then
+		show_notification("No locations found for key: " .. key, "warn")
+		return
+	end
+
+	vim.fn.setqflist(qf_list, "r")
+	vim.cmd("copen")
+end
+
 return M

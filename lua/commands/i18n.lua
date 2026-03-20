@@ -53,3 +53,12 @@ vim.api.nvim_create_user_command("I18nSort", function()
 end, {
 	desc = "Sort i18n JSON files alphabetically",
 })
+
+-- Command to go to translation key in locale files
+vim.api.nvim_create_user_command("I18nGoto", function(opts)
+	local key = opts.args ~= "" and opts.args or nil
+	i18n_utils.goto_translation_key(key)
+end, {
+	nargs = "?",
+	desc = "Go to translation key in locale files (uses key under cursor if no arg)",
+})

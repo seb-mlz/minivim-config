@@ -54,6 +54,7 @@ _G.Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>e', desc = '+Explore/Edit' },
   { mode = 'n', keys = '<Leader>f', desc = '+Find' },
   { mode = 'n', keys = '<Leader>g', desc = '+Git' },
+  { mode = 'n', keys = '<Leader>h', desc = '+Hunk' },
   { mode = 'n', keys = '<Leader>l', desc = '+Language' },
   { mode = 'n', keys = '<Leader>m', desc = '+Map' },
   { mode = 'n', keys = '<Leader>o', desc = '+Other' },
@@ -62,6 +63,7 @@ _G.Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>v', desc = '+Visits' },
 
   { mode = 'x', keys = '<Leader>g', desc = '+Git' },
+  { mode = 'x', keys = '<Leader>h', desc = '+Hunk' },
   { mode = 'x', keys = '<Leader>l', desc = '+Language' },
 
   { mode = 'n', keys = '<Leader>y', desc = '+Yank' },
@@ -213,6 +215,7 @@ nmap_leader('lr', '<Cmd>lua vim.lsp.buf.rename()<CR>',          'Rename')
 nmap_leader('lR', '<Cmd>lua vim.lsp.buf.references()<CR>',      'References')
 nmap_leader('ls', '<Cmd>lua vim.lsp.buf.definition()<CR>',      'Source definition')
 nmap_leader('lt', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', 'Type definition')
+nmap_leader('ln', '<Cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<CR>', 'Inlay hints (toggle)')
 
 xmap_leader('lf', formatting_cmd, 'Format selection')
 
@@ -268,3 +271,45 @@ nmap_leader('vL', '<Cmd>lua MiniVisits.remove_label()<CR>',       'Remove label'
 nmap_leader('y', '"+y', 'Yank to system clipboard (operator)')
 xmap_leader('y', '"+y', 'Yank to system clipboard (visual)')
 -- stylua: ignore end
+
+-- h is for 'Hunk' (gitsigns). Common usage:
+-- - `<Leader>hs` - stage current hunk
+-- - `<Leader>hr` - reset current hunk
+-- - `<Leader>hp` - preview hunk in popup
+-- - `<Leader>hb` - show full blame for current line
+-- - `<Leader>hd` - diff against index
+nmap_leader("hs", "<Cmd>Gitsigns stage_hunk<CR>", "Stage hunk")
+nmap_leader("hr", "<Cmd>Gitsigns reset_hunk<CR>", "Reset hunk")
+nmap_leader("hS", "<Cmd>Gitsigns stage_buffer<CR>", "Stage buffer")
+nmap_leader("hR", "<Cmd>Gitsigns reset_buffer<CR>", "Reset buffer")
+nmap_leader("hp", "<Cmd>Gitsigns preview_hunk<CR>", "Preview hunk")
+nmap_leader("hi", "<Cmd>Gitsigns preview_hunk_inline<CR>", "Preview hunk inline")
+nmap_leader("hb", '<Cmd>lua require("gitsigns").blame_line{full=true}<CR>', "Blame line (full)")
+nmap_leader("hd", "<Cmd>Gitsigns diffthis<CR>", "Diff against index")
+nmap_leader("hD", '<Cmd>lua require("gitsigns").diffthis("~")<CR>', "Diff against ~")
+nmap_leader("hq", "<Cmd>Gitsigns setqflist<CR>", "Hunks to quickfix")
+nmap_leader("hQ", '<Cmd>lua require("gitsigns").setqflist("all")<CR>', "All hunks to quickfix")
+nmap_leader("htb", "<Cmd>Gitsigns toggle_current_line_blame<CR>", "Toggle line blame")
+nmap_leader("htw", "<Cmd>Gitsigns toggle_word_diff<CR>", "Toggle word diff")
+
+xmap_leader("hs", ":Gitsigns stage_hunk<CR>", "Stage hunk")
+xmap_leader("hr", ":Gitsigns reset_hunk<CR>", "Reset hunk")
+
+-- Gitsigns hunk navigation
+nmap("]c", function()
+	if vim.wo.diff then
+		vim.cmd.normal({ "]c", bang = true })
+	else
+		require("gitsigns").nav_hunk("next")
+	end
+end, "Next hunk/change")
+
+nmap("[c", function()
+	if vim.wo.diff then
+		vim.cmd.normal({ "[c", bang = true })
+	else
+		require("gitsigns").nav_hunk("prev")
+	end
+end, "Prev hunk/change")
+
+vim.keymap.set({ "o", "x" }, "ih", "<Cmd>Gitsigns select_hunk<CR>", { desc = "Inside hunk" })
