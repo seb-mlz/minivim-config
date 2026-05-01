@@ -109,6 +109,7 @@ now_if_args(function()
 		"rust_analyzer",
 		"pyright",
 		"tinymist",
+		"marksman",
 	})
 	-- Use `:h vim.lsp.enable()` to automatically enable language server based on
 	-- the rules provided by 'nvim-lspconfig'.

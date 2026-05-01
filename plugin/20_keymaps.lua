@@ -313,3 +313,6 @@ nmap("[c", function()
 end, "Prev hunk/change")
 
 vim.keymap.set({ "o", "x" }, "ih", "<Cmd>Gitsigns select_hunk<CR>", { desc = "Inside hunk" })
+
+local obsidian_scripts = require("scripts.obsidian")
+nmap_leader("oi", obsidian_scripts.capture_inbox, "Capture Inbox (note datée)")
