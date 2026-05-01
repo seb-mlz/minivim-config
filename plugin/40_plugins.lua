@@ -106,6 +106,7 @@ now_if_args(function()
 		"tailwindcss",
 		"emmet_language_server",
 		"vimfony",
+		"rust_analyzer",
 		"pyright",
 		"tinymist",
 	})
