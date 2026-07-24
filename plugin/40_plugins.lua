@@ -163,8 +163,6 @@ later(function()
 	-- - `:h conform-options`
 	-- - `:h conform-formatters`
 	require("conform").setup({
-		-- Map of filetype to formatters
-		-- Make sure that necessary CLI tool is available
 		formatters_by_ft = {
 			lua = { "stylua" },
 			vue = { "eslint_d" },
@@ -173,10 +171,10 @@ later(function()
 			php = { "php-cs-fixer" },
 			json = { "jq" },
 		},
+		notify_on_error = true,
 		format_on_save = {
-			-- I recommend these options. See :help conform.format for details.
 			lsp_format = "fallback",
-			timeout_ms = 600,
+			timeout_ms = 5000,
 		},
 	})
 end)
@@ -216,24 +214,6 @@ end)
 later(function()
 	add("mason-org/mason.nvim")
 	require("mason").setup()
-end)
-
-later(function()
-	-- This is the correct community Lua plugin
-	add("zbirenbaum/copilot.lua")
-
-	-- The setup config remains the same
-	require("copilot").setup({
-		suggestion = {
-			auto_trigger = true,
-			keymap = {
-				dismiss = "<C-e>",
-			},
-		},
-		panel = {
-			enabled = false, -- Keep it minimal
-		},
-	})
 end)
 
 -- Beautiful, usable, well maintained color schemes outside of 'mini.nvim' and
